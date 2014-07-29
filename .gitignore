@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-/gen
-/bin
-=======
 # built application files
 *.apk
 *.ap_
@@ -31,5 +27,3 @@ proguard/
 *.ipr
 *.iws
 .idea/
-
->>>>>>> 46781d006ee9cde61c9fed7b37f731025fce53cf
