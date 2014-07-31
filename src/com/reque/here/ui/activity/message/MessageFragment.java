@@ -89,4 +89,9 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		mRecorder.release();
 		Log.d(TAG, "finishRecord finish");
 	}
+	
+	private void playRecord(){
+		
+		
+	}
 }
