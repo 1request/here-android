@@ -1,5 +1,5 @@
 /*
- * @project :MaiTii
+ * @project :Here
  * @author  :huqiming 
  * @date    :2014-7-25
  */
@@ -22,16 +22,25 @@ import com.reque.here.ui.adapter.model.MenuItem;
 /**
  *
  */
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements IMainMenu {
 	private static final String TAG = "MenuFragment";
+	private MenuAdapter mMenuAdapter;
+	private OnMenuItemClickListener mListener;
+	private List<MenuItem> mItems;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ListView view = (ListView) inflater.inflate(R.layout.menu_list_layout, null);
-		MenuAdapter adapter = new MenuAdapter(getActivity());
-		view.setAdapter(adapter);
-		adapter.setMenuItems(createTestData());
-		adapter.notifyDataSetChanged();
+		return setupView(inflater);
+	}
+
+	private View setupView(LayoutInflater inflater) {
+		View view = inflater.inflate(R.layout.fragment_menu, null);
+		ListView list = (ListView) view.findViewById(R.id.menu_list);
+		mMenuAdapter = new MenuAdapter(getActivity());
+		list.setAdapter(mMenuAdapter);
+		if (mItems != null) {
+			setMenuItems(mItems);
+		}
 		return view;
 	}
 
@@ -43,5 +52,24 @@ public class MenuFragment extends Fragment {
 			items.add(item);
 		}
 		return items;
+	}
+
+	@Override
+	public void setMenuItems(List<MenuItem> menuItems) {
+		mItems = menuItems;
+		if (mMenuAdapter != null) {
+			mMenuAdapter.setMenuItems(menuItems);
+			updateMenuItems();
+		}
+	}
+
+	@Override
+	public void setOnMenuItemClickListener(OnMenuItemClickListener l) {
+		mListener = l;
+	}
+
+	@Override
+	public void updateMenuItems() {
+		mMenuAdapter.notifyDataSetChanged();
 	}
 }

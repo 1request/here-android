@@ -1,12 +1,14 @@
 /*
- * @project :MaiTii
+ * @project :Here
  * @author  :huqiming 
  * @date    :2014-7-21
  */
 package com.reque.here.ui.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
@@ -14,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.reque.here.R;
+import com.reque.here.ui.activity.menu.IMainMenu;
 import com.reque.here.ui.activity.menu.MenuFragment;
+import com.reque.here.ui.adapter.model.MenuItem;
+import com.reque.utils.Log;
 import com.reque.widget.slidingmenu.SlidingActivityBase;
 import com.reque.widget.slidingmenu.SlidingActivityHelper;
 import com.reque.widget.slidingmenu.SlidingMenu;
@@ -26,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 	private static final String TAG = "MainActivity";
 
 	private SlidingActivityHelper mHelper;
+	private IMainMenu mMainMenu;
 
 	/*
 	 * (non-Javadoc)
@@ -51,9 +57,50 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 		MenuFragment menuFragment = new MenuFragment();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.add(R.id.menu_frame, menuFragment).commit();
+		mMainMenu = menuFragment;
 
-		BaseFragment contentFragment = new BaseFragment();
-		ft = getSupportFragmentManager().beginTransaction();
+		initMenuItems();
+	}
+
+	private void initMenuItems() {
+		List<MenuItem> items = new ArrayList<MenuItem>(5);
+		MenuItem msg = new MenuItem();
+		msg.title = "消息";
+		msg.mappingFragment = "com.reque.here.ui.activity.message.MessageFragment";
+		items.add(msg);
+
+		MenuItem device = new MenuItem();
+		device.title = "设备";
+		device.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
+		items.add(device);
+
+		MenuItem user = new MenuItem();
+		user.title = "账号";
+		user.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
+		items.add(user);
+
+		MenuItem set = new MenuItem();
+		set.title = "设置";
+		set.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
+		items.add(set);
+
+		mMainMenu.setMenuItems(items);
+
+		showContentFragment(items.get(0).mappingFragment);
+	}
+
+	private void showContentFragment(String clsName) {
+		Log.e(TAG, "showContentFragment clsName: " + clsName);
+		BaseFragment contentFragment = null;
+		try {
+			Class cls = Class.forName(clsName);
+			contentFragment = (BaseFragment) cls.newInstance();
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, "showContentFragment Exception: " + e.toString());
+			return;
+		}
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.add(R.id.content_frame, contentFragment).commit();
 	}
 
