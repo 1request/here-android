@@ -5,6 +5,11 @@
  */
 package com.reque.here.ui.activity.message;
 
+import java.io.File;
+import java.io.IOException;
+
+import android.media.MediaRecorder;
+import android.media.MediaRecorder.AudioEncoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,12 +20,14 @@ import android.widget.Button;
 
 import com.reque.here.R;
 import com.reque.here.ui.activity.BaseFragment;
+import com.reque.utils.Log;
 
 /**
  * 留言界面
  */
 public class MessageFragment extends BaseFragment implements OnClickListener {
 	private static final String TAG = "MessageFragment";
+	private MediaRecorder mRecorder;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.start:
-			start();
+			startRecord();
 			break;
 		case R.id.finish:
 			finishRecord();
@@ -49,11 +56,37 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		}
 	}
 
-	private void start() {
-
+	private void startRecord() {
+		Log.d(TAG, "start begin");
+		mRecorder = new MediaRecorder();
+		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		File file = new File("/sdcard/" + String.valueOf(System.currentTimeMillis()) + ".amr");
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String path = file.getAbsolutePath();
+		Log.d(TAG, "start path: " + path);
+		mRecorder.setOutputFile(path);
+		try {
+			mRecorder.prepare();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG, "start prepare");
+		mRecorder.start();
+		Log.d(TAG, "start finish");
 	}
 
 	private void finishRecord() {
-
+		Log.d(TAG, "finishRecord begin");
+		mRecorder.stop();
+		mRecorder.release();
+		Log.d(TAG, "finishRecord finish");
 	}
 }
