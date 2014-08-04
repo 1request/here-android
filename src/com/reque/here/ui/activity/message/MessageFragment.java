@@ -8,8 +8,9 @@ package com.reque.here.ui.activity.message;
 import java.io.File;
 import java.io.IOException;
 
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
-import android.media.MediaRecorder.AudioEncoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.reque.here.R;
+import com.reque.here.core.settings.AppSetting;
 import com.reque.here.ui.activity.BaseFragment;
 import com.reque.utils.Log;
 
@@ -40,6 +42,8 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		start.setOnClickListener(this);
 		Button finish = (Button) view.findViewById(R.id.finish);
 		finish.setOnClickListener(this);
+		Button play = (Button) view.findViewById(R.id.play);
+		play.setOnClickListener(this);
 		return view;
 	}
 
@@ -51,10 +55,15 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.finish:
 			finishRecord();
+			break;
+		case R.id.play:
+			playRecord();
 		default:
 			break;
 		}
 	}
+
+	private String voicePath = null;
 
 	private void startRecord() {
 		Log.d(TAG, "start begin");
@@ -62,15 +71,21 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-		File file = new File("/sdcard/" + String.valueOf(System.currentTimeMillis()) + ".amr");
+		String path = AppSetting.APP_PATH + String.valueOf(System.currentTimeMillis()) + ".amr";
+		File file = new File(path);
+		if (!file.getParentFile().exists()) {
+			file.getParentFile().mkdirs();
+		}
 		try {
+
 			file.createNewFile();
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			Log.e(TAG, "create path error: " + e1.toString());
 		}
-		String path = file.getAbsolutePath();
-		Log.d(TAG, "start path: " + path);
-		mRecorder.setOutputFile(path);
+		voicePath = file.getAbsolutePath();
+		Log.d(TAG, "start path: " + voicePath);
+		mRecorder.setOutputFile(voicePath);
 		try {
 			mRecorder.prepare();
 		} catch (IllegalStateException e) {
@@ -89,9 +104,37 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		mRecorder.release();
 		Log.d(TAG, "finishRecord finish");
 	}
-	
-	private void playRecord(){
-		
-		
+
+	private void playRecord() {
+		Log.d(TAG, "playRecord mediaPlayer path: " + voicePath);
+		if (voicePath == null) {
+			return;
+		}
+		MediaPlayer mediaPlayer = new MediaPlayer();
+		mediaPlayer.setAuxEffectSendLevel(1.0f);
+		mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				Log.d(TAG, "playRecord mediaPlayer onCompletion ");
+				mp.release();
+			}
+		});
+		try {
+			mediaPlayer.setDataSource(voicePath);
+			mediaPlayer.prepare();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG, "playRecord mediaPlayer prepared");
+		mediaPlayer.start();
+		Log.d(TAG, "playRecord mediaPlayer start");
+
 	}
 }

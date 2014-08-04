@@ -22,4 +22,13 @@
         android:text="finish"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/play"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="play"
+        android:textSize="18sp" />
+
 </LinearLayout>
