@@ -23,7 +23,7 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:textColor="@color/txt_white"
-        android:textSize="26sp" />
+        android:textSize="22sp" />
 
     <ImageView
         android:id="@+id/menu_item_tip"

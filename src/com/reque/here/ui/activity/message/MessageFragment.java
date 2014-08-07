@@ -14,8 +14,11 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -27,7 +30,7 @@ import com.reque.utils.Log;
 /**
  * 留言界面
  */
-public class MessageFragment extends BaseFragment implements OnClickListener {
+public class MessageFragment extends BaseFragment implements OnClickListener, OnLongClickListener, OnTouchListener {
 	private static final String TAG = "MessageFragment";
 	private MediaRecorder mRecorder;
 
@@ -38,35 +41,19 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 
 	private View setupView(LayoutInflater inflater) {
 		View view = inflater.inflate(R.layout.fragment_message, null);
-		Button start = (Button) view.findViewById(R.id.start);
-		start.setOnClickListener(this);
-		Button finish = (Button) view.findViewById(R.id.finish);
-		finish.setOnClickListener(this);
-		Button play = (Button) view.findViewById(R.id.play);
-		play.setOnClickListener(this);
+		Button leaveMsg = (Button) view.findViewById(R.id.leave_msg);
+		leaveMsg.setOnClickListener(this);
+		leaveMsg.setOnLongClickListener(this);
+		leaveMsg.setOnTouchListener(this);
 		return view;
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.start:
-			startRecord();
-			break;
-		case R.id.finish:
-			finishRecord();
-			break;
-		case R.id.play:
-			playRecord();
-		default:
-			break;
-		}
-	}
-
 	private String voicePath = null;
+	private boolean recording = false;
 
 	private void startRecord() {
 		Log.d(TAG, "start begin");
+		recording = true;
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
@@ -99,10 +86,13 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 	}
 
 	private void finishRecord() {
-		Log.d(TAG, "finishRecord begin");
-		mRecorder.stop();
-		mRecorder.release();
-		Log.d(TAG, "finishRecord finish");
+		Log.d(TAG, "finishRecord begin recording: " + recording);
+		if (recording) {
+			recording = false;
+			mRecorder.stop();
+			mRecorder.release();
+			Log.d(TAG, "finishRecord finish");
+		}
 	}
 
 	private void playRecord() {
@@ -136,5 +126,36 @@ public class MessageFragment extends BaseFragment implements OnClickListener {
 		mediaPlayer.start();
 		Log.d(TAG, "playRecord mediaPlayer start");
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.leave_msg:
+			playRecord();
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		switch (v.getId()) {
+		case R.id.leave_msg:
+			startRecord();
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if (v.getId() == R.id.leave_msg
+				&& (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL)) {
+			finishRecord();
+		}
+		return false;
 	}
 }
