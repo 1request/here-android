@@ -2,5 +2,9 @@
 
     <string name="app_name">Here</string>
     <string name="action_settings">设置</string>
+    <string name="my_friends">我的朋友</string>
+    <string name="my_messages">我的消息</string>
+    <string name="hotspots">附近热点</string>
+    <string name="settings">设置</string>
 
 </resources>

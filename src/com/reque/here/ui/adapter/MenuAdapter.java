@@ -11,6 +11,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.reque.here.R;
@@ -57,19 +58,26 @@ public class MenuAdapter extends BaseAdapter {
 			convertView = View.inflate(mContext, R.layout.menu_list_item, null);
 			viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) convertView.findViewById(R.id.menu_item_title);
+			viewHolder.icon = (ImageView) convertView.findViewById(R.id.menu_item_icon);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
+		}
+
+		if (viewHolder == null) {
+			return convertView;
 		}
 
 		MenuItem item = getItem(position);
 		if (item != null) {
 			viewHolder.title.setText(item.title);
+			viewHolder.icon.setImageResource(item.iconRes);
 		}
 		return convertView;
 	}
 
 	class ViewHolder {
 		TextView title;
+		ImageView icon;
 	}
 
 }

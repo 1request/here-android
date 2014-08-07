@@ -10,8 +10,10 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -60,33 +62,51 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 		mMainMenu = menuFragment;
 
 		initMenuItems();
+		initActionBar();
+	}
+
+	private void initActionBar() {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_titlebar));
+		actionBar.setIcon(R.drawable.ic_title_here);
+		actionBar.setTitle(null);
 	}
 
 	private void initMenuItems() {
-		List<MenuItem> items = new ArrayList<MenuItem>(5);
+		List<MenuItem> items = new ArrayList<MenuItem>(4);
+
+		MenuItem friends = new MenuItem();
+		friends.title = getString(R.string.my_friends);
+		friends.iconRes = R.drawable.ic_sliding_friends;
+		friends.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
+		items.add(friends);
+
 		MenuItem msg = new MenuItem();
-		msg.title = "消息";
+		msg.title = getString(R.string.my_messages);
+		msg.iconRes = R.drawable.ic_sliding_msg;
 		msg.mappingFragment = "com.reque.here.ui.activity.message.MessageFragment";
 		items.add(msg);
 
 		MenuItem device = new MenuItem();
-		device.title = "设备";
+		device.title = getString(R.string.hotspots);
+		device.iconRes = R.drawable.ic_sliding_local;
 		device.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
 		items.add(device);
 
-		MenuItem user = new MenuItem();
-		user.title = "账号";
-		user.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
-		items.add(user);
-
 		MenuItem set = new MenuItem();
-		set.title = "设置";
+		set.title = getString(R.string.settings);
+		set.iconRes = R.drawable.ic_sliding_setting;
 		set.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
 		items.add(set);
 
 		mMainMenu.setMenuItems(items);
 
-		showContentFragment(items.get(0).mappingFragment);
+		showContentFragment(items.get(1).mappingFragment);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	private void showContentFragment(String clsName) {

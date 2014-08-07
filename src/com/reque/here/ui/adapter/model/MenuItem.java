@@ -12,6 +12,7 @@ public class MenuItem {
 	public String title;
 	public int id;
 	public int iconRes;
+	public int tipCount;
 	/**
 	 * 对应的fragment
 	 */
