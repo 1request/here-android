@@ -12,7 +12,7 @@ import com.reque.here.ui.adapter.model.MenuItem;
 /**
  *
  */
-public interface IMainMenu {
+public interface IMainSlidingMenu {
 	void setMenuItems(List<MenuItem> menuItems);
 
 	void setOnMenuItemClickListener(OnMenuItemClickListener l);

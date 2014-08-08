@@ -5,23 +5,19 @@
  */
 package com.reque.here.ui.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.reque.here.R;
-import com.reque.here.ui.activity.menu.IMainMenu;
+import com.reque.here.ui.activity.menu.IMainSlidingMenu;
+import com.reque.here.ui.activity.menu.IMainSlidingMenu.OnMenuItemClickListener;
 import com.reque.here.ui.activity.menu.MenuFragment;
 import com.reque.here.ui.adapter.model.MenuItem;
-import com.reque.utils.Log;
 import com.reque.widget.slidingmenu.SlidingActivityBase;
 import com.reque.widget.slidingmenu.SlidingActivityHelper;
 import com.reque.widget.slidingmenu.SlidingMenu;
@@ -33,7 +29,6 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 	private static final String TAG = "MainActivity";
 
 	private SlidingActivityHelper mHelper;
-	private IMainMenu mMainMenu;
 
 	/*
 	 * (non-Javadoc)
@@ -59,9 +54,10 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 		MenuFragment menuFragment = new MenuFragment();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.add(R.id.menu_frame, menuFragment).commit();
-		mMainMenu = menuFragment;
 
-		initMenuItems();
+		MainPageController pageController = new MainPageController(this);
+		pageController.init(menuFragment, R.id.content_frame);
+
 		initActionBar();
 	}
 
@@ -70,58 +66,6 @@ public class MainActivity extends ActionBarActivity implements SlidingActivityBa
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_titlebar));
 		actionBar.setIcon(R.drawable.ic_title_here);
 		actionBar.setTitle(null);
-	}
-
-	private void initMenuItems() {
-		List<MenuItem> items = new ArrayList<MenuItem>(4);
-
-		MenuItem friends = new MenuItem();
-		friends.title = getString(R.string.my_friends);
-		friends.iconRes = R.drawable.ic_sliding_friends;
-		friends.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
-		items.add(friends);
-
-		MenuItem msg = new MenuItem();
-		msg.title = getString(R.string.my_messages);
-		msg.iconRes = R.drawable.ic_sliding_msg;
-		msg.mappingFragment = "com.reque.here.ui.activity.message.MessageFragment";
-		items.add(msg);
-
-		MenuItem device = new MenuItem();
-		device.title = getString(R.string.hotspots);
-		device.iconRes = R.drawable.ic_sliding_local;
-		device.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
-		items.add(device);
-
-		MenuItem set = new MenuItem();
-		set.title = getString(R.string.settings);
-		set.iconRes = R.drawable.ic_sliding_setting;
-		set.mappingFragment = "com.reque.here.ui.activity.BaseFragment";
-		items.add(set);
-
-		mMainMenu.setMenuItems(items);
-
-		showContentFragment(items.get(1).mappingFragment);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	private void showContentFragment(String clsName) {
-		Log.e(TAG, "showContentFragment clsName: " + clsName);
-		BaseFragment contentFragment = null;
-		try {
-			Class cls = Class.forName(clsName);
-			contentFragment = (BaseFragment) cls.newInstance();
-		} catch (Exception e) {
-			// TODO: handle exception
-			Log.e(TAG, "showContentFragment Exception: " + e.toString());
-			return;
-		}
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.add(R.id.content_frame, contentFragment).commit();
 	}
 
 	/*

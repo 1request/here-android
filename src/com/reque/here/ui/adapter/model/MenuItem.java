@@ -13,8 +13,4 @@ public class MenuItem {
 	public int id;
 	public int iconRes;
 	public int tipCount;
-	/**
-	 * 对应的fragment
-	 */
-	public String mappingFragment;
 }
