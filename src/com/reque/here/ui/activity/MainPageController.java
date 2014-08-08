@@ -107,7 +107,7 @@ public class MainPageController implements OnMenuItemClickListener {
 		FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
 
 		if (mCurrFragment != null) {
-			ft.remove(mCurrFragment).commit();
+			ft.remove(mCurrFragment);
 		}
 		ft.add(mContentFrameId, contentFragment).commit();
 		mCurrFragment = contentFragment;
