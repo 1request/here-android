@@ -57,7 +57,7 @@ public class MainPageController implements OnMenuItemClickListener {
 			return;
 		}
 		mSlidingMenu.setOnMenuItemClickListener(this);
-		
+
 		List<MenuItem> items = new ArrayList<MenuItem>(4);
 		MenuItem friends = new MenuItem();
 		friends.title = mActivity.getString(R.string.my_friends);
@@ -102,6 +102,11 @@ public class MainPageController implements OnMenuItemClickListener {
 			} else {
 				return;
 			}
+		}
+
+		if (contentFragment.equals(mCurrFragment)) {
+			Log.d(TAG, "the same fragment");
+			return;
 		}
 
 		FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
