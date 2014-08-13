@@ -34,8 +34,8 @@ public class HotspotsFragment extends BaseFragment implements BeaconConsumer {
 	private static final String TAG = "HotspotsFragment";
 	private BeaconManager beaconManager;
 	private static final String ESTIMOTE_PROXIMITY_UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-	private static final String UUID_1 = "74278BDA-B644-4520-8F0C-720EAF059935";
-	private static final String UUID_2 = "E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+	private static final String UUID_1 = "74278bdab64445208f0c720eaf059935";
+	private static final String UUID_2 = "e2c56db5dffb48d2b060d0f5a71096e0";
 	private EditText mLogText;
 
 	// private static final Region ALL_ESTIMOTE_BEACONS = new
@@ -102,7 +102,9 @@ public class HotspotsFragment extends BaseFragment implements BeaconConsumer {
 		});
 
 		try {
-			beaconManager.startRangingBeaconsInRegion(new Region(UUID_2, null, null, null));
+//			beaconManager.startRangingBeaconsInRegion(new Region(UUID_2, null, null, null));
+			beaconManager.startRangingBeaconsInRegion(new Region(UUID_1, null, null, null));
+//			beaconManager.startMonitoringBeaconsInRegion(null);
 		} catch (RemoteException e) {
 		}
 	}
