@@ -17,7 +17,7 @@ public class HereBeaconParser extends BeaconParser {
 	 */
 	public HereBeaconParser() {
 		super();
-		this.setBeaconLayout("m:14-17=0215,i:18-33,i:34-35,i:36-37,p:38-39,d:40-79");
+		this.setBeaconLayout("m:2-3=ff4c,i:7-22,i:23-24,i:25-26,p:27-27,d:28-28");
 	}
 	
 }

@@ -196,7 +196,6 @@ public class BeaconManager {
 		this.context = context;
         this.beaconParsers.add(new AltBeaconParser());
         this.beaconParsers.add(new HereBeaconParser());
-//        this.beaconParsers.add(new BeaconParser().setBeaconLayout("m:2-3:beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
 	}
 	/**
 	 * Check if Bluetooth LE is supported by this Android device, and if so, make sure it is enabled.

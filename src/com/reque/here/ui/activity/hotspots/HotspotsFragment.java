@@ -95,26 +95,33 @@ public class HotspotsFragment extends BaseFragment implements BeaconConsumer {
 				if (beacons.size() > 0) {
 					Beacon firstBeacon = beacons.iterator().next();
 					logToDisplay("The first beacon " + firstBeacon.toString() + " is about "
-							+ firstBeacon.getDistance() + " meters away.");
+							+ firstBeacon.getDistance() + " meters away." + " rssi: " + firstBeacon.getRssi()
+							+ " power: " + firstBeacon.getTxPower() + " addr:" + firstBeacon.getBluetoothAddress());
 				}
 			}
 
 		});
 
 		try {
-//			beaconManager.startRangingBeaconsInRegion(new Region(UUID_2, null, null, null));
+			// beaconManager.startRangingBeaconsInRegion(new Region(UUID_2,
+			// null, null, null));
 			beaconManager.startRangingBeaconsInRegion(new Region(UUID_1, null, null, null));
-//			beaconManager.startMonitoringBeaconsInRegion(null);
+			// beaconManager.startMonitoringBeaconsInRegion(null);
 		} catch (RemoteException e) {
 		}
 	}
 
 	private void logToDisplay(final String line) {
-		getActivity().runOnUiThread(new Runnable() {
-			public void run() {
-				mLogText.append(line + "\n");
-			}
-		});
+		try {
+			getActivity().runOnUiThread(new Runnable() {
+				public void run() {
+					mLogText.append(line + "\n");
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
 	}
 
 	@Override
