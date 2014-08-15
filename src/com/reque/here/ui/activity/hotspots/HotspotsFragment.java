@@ -6,6 +6,7 @@
 package com.reque.here.ui.activity.hotspots;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -92,11 +93,14 @@ public class HotspotsFragment extends BaseFragment implements BeaconConsumer {
 			@Override
 			public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 				Log.d(TAG, "didRangeBeaconsInRegion beacons: " + beacons + " region: " + region);
-				if (beacons.size() > 0) {
-					Beacon firstBeacon = beacons.iterator().next();
-					logToDisplay("The first beacon " + firstBeacon.toString() + " is about "
-							+ firstBeacon.getDistance() + " meters away." + " rssi: " + firstBeacon.getRssi()
-							+ " power: " + firstBeacon.getTxPower() + " addr:" + firstBeacon.getBluetoothAddress());
+				if (beacons != null && beacons.size() > 0) {
+					Iterator<Beacon> it = beacons.iterator();
+					while (it.hasNext()) {
+						Beacon beacon = it.next();
+						logToDisplay("The beacon:" + beacon.toString() + " distance:" + beacon.getDistance()
+								+ "m rssi: " + beacon.getRssi() + " power: " + beacon.getTxPower() + " addr:"
+								+ beacon.getBluetoothAddress());
+					}
 				}
 			}
 
