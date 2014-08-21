@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 点赞数和评论数 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null" >
+
+        <TextView
+            android:id="@+id/txt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_msg_stroke"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:text="209"
+            android:textColor="@color/txt_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txt_praise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/txt_comment"
+            android:drawableLeft="@drawable/ic_peach_stroke"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:text="123"
+            android:textColor="@color/txt_gray"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!-- 头像 -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_hexagon_green_mid"
+        android:scaleType="center"
+        android:src="@drawable/ic_volume" />
+
+    <!-- 昵称 -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="Suddenlydream"
+        android:textColor="@color/txt_green"
+        android:textSize="22sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/ic_local_normal"
+        android:ellipsize="middle"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="深圳市南山区高新南六道六号迈科龙大厦"
+        android:textColor="@color/txt_gray"
+        android:textSize="16sp" />
+
+</LinearLayout>
