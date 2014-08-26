@@ -6,7 +6,6 @@
 package com.reque.here.core.business.message;
 
 import com.reque.here.core.settings.AppSetting;
-import com.reque.here.core.trans.ITransfer;
 import com.reque.here.core.voice.play.DefVoicePlayer;
 import com.reque.here.core.voice.play.IVoicePlayer;
 import com.reque.here.core.voice.recorder.DefVoiceRecorder;
@@ -20,7 +19,6 @@ public class MessageController {
 	private static final String TAG = "MessageController";
 	private IVoicePlayer mVoicePlayer;
 	private IVoiceRecorder mVoiceRecorder;
-	private ITransfer mTransfer;
 	private String mCurrVoicePath = null;
 
 	/**
