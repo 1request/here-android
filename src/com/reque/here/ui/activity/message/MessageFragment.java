@@ -52,6 +52,12 @@ public class MessageFragment extends BaseFragment implements OnClickListener, On
 		leaveMsg.setOnClickListener(this);
 		leaveMsg.setOnLongClickListener(this);
 		leaveMsg.setOnTouchListener(this);
+		
+		View head = view.findViewById(R.id.head);
+		View nickName = view.findViewById(R.id.nickname);
+		
+		head.setOnClickListener(this);
+		nickName.setOnClickListener(this);
 		return view;
 	}
 
@@ -60,6 +66,12 @@ public class MessageFragment extends BaseFragment implements OnClickListener, On
 		switch (v.getId()) {
 		case R.id.leave_msg:
 			mMsgController.playRecord();
+			break;
+		case R.id.head:
+			mMsgController.uploadRecord();
+			break;
+		case R.id.nickname:
+			mMsgController.testGetRecord();
 			break;
 		default:
 			break;

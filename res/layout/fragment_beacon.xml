@@ -50,6 +50,7 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/bg_hexagon_green_mid"
         android:scaleType="center"
+        android:id="@+id/head"
         android:src="@drawable/ic_volume" />
 
     <!-- 昵称 -->

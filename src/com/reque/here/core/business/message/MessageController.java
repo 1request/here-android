@@ -5,6 +5,9 @@
  */
 package com.reque.here.core.business.message;
 
+import android.util.Log;
+
+import com.reque.here.core.api.message.MessageApi;
 import com.reque.here.core.settings.AppSetting;
 import com.reque.here.core.voice.play.DefVoicePlayer;
 import com.reque.here.core.voice.play.IVoicePlayer;
@@ -40,5 +43,16 @@ public class MessageController {
 
 	public void playRecord() {
 		mVoicePlayer.play(mCurrVoicePath);
+	}
+
+	public void uploadRecord() {
+		Log.d(TAG, "uploadRecord mCurrVoicePath: " + mCurrVoicePath);
+		MessageApi.uploadMessage(AppSetting.TEST_MAC, AppSetting.TEST_ACCESS_ID, AppSetting.TEST_DEVICE_ID,
+				AppSetting.TEST_DEVICE_TYPE, mCurrVoicePath);
+	}
+
+	public void testGetRecord() {
+		MessageApi.requestMessage(AppSetting.TEST_MAC, AppSetting.TEST_ACCESS_ID, AppSetting.TEST_DEVICE_ID,
+				AppSetting.TEST_DEVICE_TYPE);
 	}
 }

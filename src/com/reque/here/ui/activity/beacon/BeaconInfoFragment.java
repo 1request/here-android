@@ -1,14 +1,15 @@
 package com.reque.here.ui.activity.beacon;
 
-import com.reque.here.R;
-import com.reque.here.core.api.message.MessageApi;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import com.reque.here.R;
+import com.reque.here.core.api.message.MessageApi;
 
 public class BeaconInfoFragment extends Fragment {
 	private static final String TAG = "BeaconInfoFragment";
@@ -18,7 +19,6 @@ public class BeaconInfoFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
-		MessageApi.requestMessage("e2c56db5dffb48d2b060d0f5a71096e0", "323", "212", "123455");
 	}
 
 	@Override
@@ -29,7 +29,19 @@ public class BeaconInfoFragment extends Fragment {
 
 	private View setupView(LayoutInflater inflater) {
 		View view = inflater.inflate(R.layout.fragment_beacon, null);
+		View head = view.findViewById(R.id.head);
+		head.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				testApi();
+			}
+		});
 		return view;
+	}
+	
+	private void testApi(){
+//		MessageApi.uploadMessage(null, null, null, "1232344", 0, "");
 	}
 	
 	public void setBeaconModel(BeaconModel beacon) {
