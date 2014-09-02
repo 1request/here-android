@@ -3,7 +3,7 @@
  * @author  :huqiming 
  * @date    :2014-8-8
  */
-package com.reque.here.core.business.message;
+package com.reque.here.core.message;
 
 import android.util.Log;
 

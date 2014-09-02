@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.reque.here.R;
-import com.reque.here.core.business.message.MessageController;
+import com.reque.here.core.message.MessageController;
 import com.reque.here.core.settings.AppSetting;
 import com.reque.here.ui.activity.BaseFragment;
 import com.reque.utils.Log;
