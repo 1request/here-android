@@ -3,13 +3,16 @@
  */
 package com.reque.here.core.service;
 
-import com.reque.here.core.anchor.model.Anchor;
-import com.reque.here.core.message.model.AbsMessage;
+import java.util.List;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+
+import com.reque.here.core.anchor.AnchorMediator;
+import com.reque.here.core.anchor.model.Anchor;
+import com.reque.here.core.message.model.AbsMessage;
 
 /**
  * @author huqiming
@@ -17,7 +20,7 @@ import android.os.RemoteException;
  */
 public class CoreService extends Service {
 	private static final String TAG = "CoreService";
-	private CoreServiceStub mServiceStub;
+	private AnchorMediator mAnchorMediator;
 
 	/* 
 	 */
@@ -31,7 +34,7 @@ public class CoreService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mServiceStub = new CoreServiceStub();
+		mAnchorMediator = new AnchorMediator(this);
 	}
 
 	/* 
@@ -55,12 +58,17 @@ public class CoreService extends Service {
 		return super.onUnbind(intent);
 	}
 
-	private static class CoreServiceStub extends ICoreService.Stub {
+	private ICoreService.Stub mServiceStub = new ICoreService.Stub() {
+		@Override
+		public List<Anchor> getCurrentAnchors() throws RemoteException {
+			return null;
+		}
 
 		/* 
 		 */
 		@Override
 		public void setAnchorCallback(IAnchorCallback callback) throws RemoteException {
+			mAnchorMediator.setAnchorCallback(callback);
 		}
 
 		/* 
@@ -81,5 +89,5 @@ public class CoreService extends Service {
 		public void setMessageCallbck(IMessageCallback callback) throws RemoteException {
 		}
 
-	}
+	};
 }

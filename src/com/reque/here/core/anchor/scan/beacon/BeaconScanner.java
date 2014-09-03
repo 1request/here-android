@@ -1,5 +1,8 @@
 package com.reque.here.core.anchor.scan.beacon;
 
+import java.util.List;
+
+import com.reque.here.core.anchor.model.Anchor;
 import com.reque.here.core.anchor.scan.IAnchorScanner;
 
 public class BeaconScanner implements IAnchorScanner {
@@ -17,6 +20,13 @@ public class BeaconScanner implements IAnchorScanner {
 	@Override
 	public void setScanListener(OnAnchorScanListener l) {
 		
+	}
+
+	/* 
+	 */
+	@Override
+	public <T extends Anchor> List<T> getCurrentAnchors() {
+		return null;
 	}
 
 }

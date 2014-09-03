@@ -13,6 +13,8 @@ import com.reque.here.core.service.IMessageCallback;
  *
  */
 interface ICoreService {
+	List<Anchor> getCurrentAnchors();
+	
 	void setAnchorCallback(IAnchorCallback callback);
 
 	void sendMessage(in AbsMessage msg);

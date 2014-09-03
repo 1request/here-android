@@ -9,13 +9,13 @@ import android.os.Parcelable;
  * @author huqiming
  *
  */
-public class Anchor implements Parcelable {
+public abstract class Anchor implements Parcelable {
 
-//	public abstract String getUniqueId();
-//
-//	public abstract String getMacAddress();
-//
-//	public abstract void readFromParcel(Parcel source);
+	public abstract String getUniqueId();
+
+	public abstract String getMacAddress();
+
+	public abstract void readFromParcel(Parcel source);
 	
 	/**
 	 * 
@@ -38,19 +38,18 @@ public class Anchor implements Parcelable {
 		@Override
 		public Anchor createFromParcel(Parcel source) {
 			int desc = source.readInt();
-//			switch (desc) {
-//			case Beacon.DESC_BEACON:
-//				Beacon beacon = new Beacon();
-//				beacon.readFromParcel(source);
-//				return beacon;
-//			case WifiHotspot.DESC_WIFI:
-//				WifiHotspot wifi = new WifiHotspot();
-//				wifi.readFromParcel(source);
-//				return wifi;
-//			default:
-//				return null;
-//			}
-			return new Anchor();
+			switch (desc) {
+			case Beacon.DESC_BEACON:
+				Beacon beacon = new Beacon();
+				beacon.readFromParcel(source);
+				return beacon;
+			case WifiHotspot.DESC_WIFI:
+				WifiHotspot wifi = new WifiHotspot();
+				wifi.readFromParcel(source);
+				return wifi;
+			default:
+				return null;
+			}
 		}
 
 		@Override
