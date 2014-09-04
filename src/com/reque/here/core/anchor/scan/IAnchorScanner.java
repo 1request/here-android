@@ -5,7 +5,7 @@ import java.util.List;
 import com.reque.here.core.anchor.model.Anchor;
 
 public interface IAnchorScanner {
-	<T extends Anchor> List<T> getCurrentAnchors();
+	List<? extends Anchor> getCurrentAnchors();
 
 	void startScan(int interval);
 
@@ -14,6 +14,6 @@ public interface IAnchorScanner {
 	void setScanListener(OnAnchorScanListener l);
 
 	public interface OnAnchorScanListener {
-		<T extends Anchor> void onAnchorScanned(List<T> anchors);
+		void onAnchorScanned(List<? extends Anchor> anchors);
 	}
 }

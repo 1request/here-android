@@ -5,7 +5,6 @@ package com.reque.here.core.service;
 	   
 import com.reque.here.core.message.model.AbsMessage;
 import com.reque.here.core.anchor.model.Anchor;
-import com.reque.here.core.service.IAnchorCallback;
 import com.reque.here.core.service.IMessageCallback;
 
 /**
@@ -15,8 +14,6 @@ import com.reque.here.core.service.IMessageCallback;
 interface ICoreService {
 	List<Anchor> getCurrentAnchors();
 	
-	void setAnchorCallback(IAnchorCallback callback);
-
 	void sendMessage(in AbsMessage msg);
 	
 	void queryMessagesByAnchor(in Anchor anchor);

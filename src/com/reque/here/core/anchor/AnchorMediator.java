@@ -6,11 +6,12 @@ package com.reque.here.core.anchor;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.reque.here.core.anchor.model.Anchor;
 import com.reque.here.core.anchor.scan.IAnchorScanner.OnAnchorScanListener;
 import com.reque.here.core.anchor.scan.wifi.WifiAnchorScanner;
-import com.reque.here.core.service.IAnchorCallback;
+import com.reque.here.core.notification.AnchorNotification;
 
 /**
  * @author huqiming
@@ -18,9 +19,10 @@ import com.reque.here.core.service.IAnchorCallback;
  */
 public class AnchorMediator implements OnAnchorScanListener {
 	private static final String TAG = "AnchorMediator";
-	private IAnchorCallback mAnchorCallback;
+	private static final int SCAN_INTERVAL = 1000 * 30;
 	private WifiAnchorScanner mWifiScanner;
 	private Context mContext;
+	private AnchorNotification mNotification;
 
 	/**
 	 * 
@@ -31,23 +33,33 @@ public class AnchorMediator implements OnAnchorScanListener {
 
 	public void init() {
 		mWifiScanner = new WifiAnchorScanner(mContext);
+		mWifiScanner.setScanListener(this);
+		mWifiScanner.startScan(SCAN_INTERVAL);
+
+		mNotification = new AnchorNotification(mContext);
 	}
 
 	public void release() {
+		mWifiScanner.stopScan();
 	}
 
-	public void setAnchorCallback(IAnchorCallback callback) {
-		mAnchorCallback = callback;
+	public List<? extends Anchor> getCurrentAnchors() {
+		return mWifiScanner.getCurrentAnchors();
 	}
 
-	public List<Anchor> getCurrentAnchors() {
-		return null;
+	private void handleScannedAnchor() {
+		Log.d(TAG, "handleScannedAnchor");
+		mNotification.showScanAnchor();
+		mWifiScanner.stopScan();
 	}
 
 	/* 
 	 */
 	@Override
-	public <T extends Anchor> void onAnchorScanned(List<T> anchors) {
+	public void onAnchorScanned(List<? extends Anchor> anchors) {
+		Log.d(TAG, "onAnchorScanned anchors: " + anchors);
+		if (anchors != null && anchors.size() > 0) {
+			handleScannedAnchor();
+		}
 	}
-
 }

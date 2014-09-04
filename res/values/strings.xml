@@ -6,5 +6,6 @@
     <string name="my_messages">我的消息</string>
     <string name="hotspots">附近热点</string>
     <string name="settings">设置</string>
+    <string name="scanned_anchor">附近有扫描到热点，点击查看</string>
 
 </resources>

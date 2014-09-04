@@ -25,8 +25,9 @@ public class BeaconScanner implements IAnchorScanner {
 	/* 
 	 */
 	@Override
-	public <T extends Anchor> List<T> getCurrentAnchors() {
+	public List<? extends Anchor> getCurrentAnchors() {
 		return null;
 	}
+
 
 }

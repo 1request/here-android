@@ -35,6 +35,7 @@ public class CoreService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		mAnchorMediator = new AnchorMediator(this);
+		mAnchorMediator.init();
 	}
 
 	/* 
@@ -42,6 +43,7 @@ public class CoreService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		mAnchorMediator.release();
 	}
 
 	/* 
@@ -55,20 +57,13 @@ public class CoreService extends Service {
 	 */
 	@Override
 	public boolean onUnbind(Intent intent) {
-		return super.onUnbind(intent);
+		return true;
 	}
 
 	private ICoreService.Stub mServiceStub = new ICoreService.Stub() {
 		@Override
 		public List<Anchor> getCurrentAnchors() throws RemoteException {
-			return null;
-		}
-
-		/* 
-		 */
-		@Override
-		public void setAnchorCallback(IAnchorCallback callback) throws RemoteException {
-			mAnchorMediator.setAnchorCallback(callback);
+			return (List<Anchor>) mAnchorMediator.getCurrentAnchors();
 		}
 
 		/* 

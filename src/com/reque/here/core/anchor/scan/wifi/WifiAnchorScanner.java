@@ -20,15 +20,14 @@ public class WifiAnchorScanner implements IAnchorScanner, WifiScanListener {
 	public WifiAnchorScanner(Context context) {
 		mWifiScanner = new WifiScanner(context);
 	}
-	
+
 	/* 
 	 */
 	@Override
-	public List<Anchor> getCurrentAnchors() {
+	public List<? extends Anchor> getCurrentAnchors() {
 		List<ScanResult> scanResults = mWifiScanner.getScanResult();
-		List<WifiHotspot> anchors = wifisToAnchors(scanResults);
-//		return anchors;
-		return null;
+		List<? extends Anchor> anchors = wifisToAnchors(scanResults);
+		return anchors;
 	}
 
 	@Override
@@ -54,12 +53,12 @@ public class WifiAnchorScanner implements IAnchorScanner, WifiScanListener {
 	public void onWifiScanResult(List<ScanResult> result) {
 		Log.d(TAG, "onWifiScanResult result: " + result);
 		if (mListener != null) {
-			List<WifiHotspot> anchors = wifisToAnchors(result);
+			List<? extends Anchor> anchors = wifisToAnchors(result);
 			mListener.onAnchorScanned(anchors);
 		}
 	}
 
-	private List<WifiHotspot> wifisToAnchors(List<ScanResult> scanResults) {
+	private List<? extends Anchor> wifisToAnchors(List<ScanResult> scanResults) {
 		if (scanResults == null || scanResults.size() <= 0) {
 			return null;
 		}
